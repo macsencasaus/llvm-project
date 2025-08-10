@@ -5,14 +5,50 @@ define i32 @src(i32 %0) {
 ; CHECK-LABEL: define i32 @src(
 ; CHECK-SAME: i32 [[TMP0:%.*]]) {
 ; CHECK-NEXT:    [[V0:%.*]] = and i32 [[TMP0]], -4
-; CHECK-NEXT:    [[V1:%.*]] = add i32 [[V0]], -1
-; CHECK-NEXT:    [[V2:%.*]] = and i32 [[V1]], -4
-; CHECK-NEXT:    [[V3:%.*]] = add i32 [[V2]], 4
-; CHECK-NEXT:    ret i32 [[V3]]
+; CHECK-NEXT:    ret i32 [[V0]]
 ;
   %v0 = and i32 %0, -4
   %v1 = add i32 %v0, -1
   %v2 = and i32 %v1, -4
   %v3 = add i32 %v2, 4
   ret i32 %v3
+}
+
+define i32 @src_c(i32 %0) {
+; CHECK-LABEL: define i32 @src_c(
+; CHECK-SAME: i32 [[TMP0:%.*]]) {
+; CHECK-NEXT:    [[V3:%.*]] = and i32 [[TMP0]], -4
+; CHECK-NEXT:    ret i32 [[V3]]
+;
+  %v0 = and i32 -4, %0
+  %v1 = add i32 -1, %v0
+  %v2 = and i32 -4, %v1
+  %v3 = add i32 4, %v2
+  ret i32 %v3
+}
+
+define i32 @src2(i32 %0) {
+; CHECK-LABEL: define i32 @src2(
+; CHECK-SAME: i32 [[TMP0:%.*]]) {
+; CHECK-NEXT:    [[V3:%.*]] = and i32 [[TMP0]], -8
+; CHECK-NEXT:    ret i32 [[V3]]
+;
+  %v0 = and i32 %0, -8
+  %v1 = add i32 %v0, -1
+  %v2 = and i32 %v1, -8
+  %v3 = add i32 %v2, 8
+  ret i32 %v3
+}
+
+define <2 x i32> @src3(<2 x i32> %0) {
+; CHECK-LABEL: define <2 x i32> @src3(
+; CHECK-SAME: <2 x i32> [[TMP0:%.*]]) {
+; CHECK-NEXT:    [[V3:%.*]] = and <2 x i32> [[TMP0]], splat (i32 -8)
+; CHECK-NEXT:    ret <2 x i32> [[V3]]
+;
+  %v0 = and <2 x i32> %0, <i32 -8, i32 -8>
+  %v1 = add <2 x i32> %v0, <i32 -1, i32 -1>
+  %v2 = and <2 x i32> %v1, <i32 -8, i32 -8>
+  %v3 = add <2 x i32> %v2, <i32 8, i32 8>
+  ret <2 x i32> %v3
 }
