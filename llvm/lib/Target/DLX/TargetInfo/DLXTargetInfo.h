@@ -1,0 +1,12 @@
+#ifndef LLVM_LIB_TARGET_DLX_TARGETINFO_DLXTARGETINFO_H
+#define LLVM_LIB_TARGET_DLX_TARGETINFO_DLXTARGETINFO_H
+
+namespace llvm {
+
+class Target;
+
+Target &getTheDLXTarget();
+
+} // namespace llvm
+
+#endif // LLVM_LIB_TARGET_DLX_TARGETINFO_DLXTARGETINFO_H

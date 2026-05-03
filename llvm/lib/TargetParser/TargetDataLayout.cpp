@@ -486,6 +486,13 @@ static std::string computeSPIRVDataLayout(const Triple &TT) {
          "v512:512-v1024:1024-n8:16:32:64-G1";
 }
 
+static std::string computeDLXDataLayout() {
+  return "e"          // little endian
+         "-p:32:32"   // 32 bit pointers, 32 bit aligned
+         "-n32"       // 32 bit native integer width
+         "f32:32:32"; // 32 bit floating point
+}
+
 static std::string computeLanaiDataLayout() {
   // Data layout (keep in sync with clang/lib/Basic/Targets.cpp)
   return "E"        // Big endian
@@ -568,6 +575,8 @@ std::string Triple::computeDataLayout(StringRef ABIName) const {
     // See https://github.com/llvm/llvm-project/issues/123968
     return "e-m:e-p:32:32-i1:32-i8:8-i16:16-i32:32-i64:64-f16:16-"
            "f32:32-f64:64-n8:16:32:64-v48:16:16-v96:32:32-v192:64:64";
+  case Triple::dlx:
+    return computeDLXDataLayout();
   case Triple::hexagon:
     return "e-m:e-p:32:32:32-a:0-n16:32-"
            "i64:64:64-i32:32:32-i16:16:16-i1:8:8-f32:32:32-f64:64:64-"
